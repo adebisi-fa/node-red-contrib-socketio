@@ -15,10 +15,16 @@ module.exports = function(RED) {
     this.path = n.path || "/socket.io";
     this.bindToNode = n.bindToNode || false;
 
+    var config = {
+      cors: {
+        origin: '*'
+      }
+    };
+
     if (this.bindToNode) {
-      io = new Server(RED.server);
+      io = new Server(RED.server, config);
     } else {
-      io = new Server();
+      io = new Server(config);
       io.serveClient(node.sendClient);
       io.path(node.path);
       io.listen(node.port);
